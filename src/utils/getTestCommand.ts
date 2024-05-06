@@ -23,7 +23,8 @@ const checkPnpmVersion = async () => {
 export const getTestCommand = async (
     command: string,
     outputFile: string,
-    workingDirectory: string | undefined
+    workingDirectory: string | undefined,
+    isVitest: boolean | undefined
 ) => {
     if (await isOldScript(command, workingDirectory)) {
         // TODO: add warning here
@@ -42,13 +43,13 @@ export const getTestCommand = async (
         // add two hypens if it is npm or pnpm package managers and two hyphens don't already exist
         isNpmStyle && !hasDoubleHyphen && '--',
         // argument which indicates that jest runs in CI environment
-        '--ci',
+        !isVitest && '--ci',
         // telling jest that output should be in json format
-        '--json',
+        !isVitest && '--json',
         // force jest to collect coverage
-        '--coverage',
+        !isVitest && '--coverage',
         // argument which tells jest to include tests' locations in the generated json output
-        '--testLocationInResults',
+        !isVitest && '--testLocationInResults',
         // output file
         `--outputFile="${outputFile}"`,
     ];

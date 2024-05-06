@@ -91,6 +91,32 @@ describe('getCoverage', () => {
         expect(jsonReport).toStrictEqual({});
     });
 
+    it('should pass with vitest', async () => {
+        const dataCollector = createDataCollector<JsonReport>();
+
+        (readFile as jest.Mock<any, any>).mockImplementationOnce(() => '{}');
+
+        const jsonReport = await getCoverage(
+            dataCollector,
+            { ...defaultOptions, isVitest: true },
+            false,
+            undefined
+        );
+
+        expect(removeDirectory).toBeCalledWith('node_modules');
+        expect(exec).toBeCalledWith('npm install', undefined, {
+            cwd: undefined,
+        });
+        expect(exec).toBeCalledWith(
+            'default script --outputFile="report.json"',
+            [],
+            { cwd: undefined }
+        );
+        expect(readFile).toHaveBeenCalledWith('report.json');
+
+        expect(jsonReport).toStrictEqual({});
+    });
+
     it('should pass package-manager', async () => {
         const dataCollector = createDataCollector<JsonReport>();
 

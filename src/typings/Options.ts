@@ -41,6 +41,7 @@ export type Options = {
     prNumber: null | number;
     pullRequest: null | PullRequest;
     output: Array<OutputType>;
+    isVitest?: boolean;
 };
 
 const validAnnotationOptions: Array<AnnotationType> = [

@@ -4,10 +4,16 @@ import { getTestCommand } from '../utils/getTestCommand';
 
 export const runTest = async (
     testCommand: string,
-    workingDirectory?: string
+    workingDirectory?: string,
+    isVitest?: boolean
 ) => {
     await exec(
-        await getTestCommand(testCommand, 'report.json', workingDirectory),
+        await getTestCommand(
+            testCommand,
+            'report.json',
+            workingDirectory,
+            isVitest
+        ),
         [],
         {
             cwd: workingDirectory,

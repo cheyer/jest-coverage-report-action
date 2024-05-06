@@ -12,23 +12,45 @@ beforeEach(() => {
 describe('getTestCommand', () => {
     it('should modify command', async () => {
         expect(
-            await getTestCommand('yarn jest', 'report.json', undefined)
+            await getTestCommand(
+                'yarn jest',
+                'report.json',
+                undefined,
+                undefined
+            )
         ).toBe(
             'yarn jest --ci --json --coverage --testLocationInResults --outputFile="report.json"'
         );
 
-        expect(await getTestCommand('npx jest', 'report.json', undefined)).toBe(
+        expect(
+            await getTestCommand(
+                'npx jest',
+                'report.json',
+                undefined,
+                undefined
+            )
+        ).toBe(
             'npx jest --ci --json --coverage --testLocationInResults --outputFile="report.json"'
         );
 
         expect(
-            await getTestCommand('pnpx jest', 'report.json', undefined)
+            await getTestCommand(
+                'pnpx jest',
+                'report.json',
+                undefined,
+                undefined
+            )
         ).toBe(
             'pnpx jest --ci --json --coverage --testLocationInResults --outputFile="report.json"'
         );
 
         expect(
-            await getTestCommand('bunx jest', 'report.json', undefined)
+            await getTestCommand(
+                'bunx jest',
+                'report.json',
+                undefined,
+                undefined
+            )
         ).toBe(
             'bunx jest --ci --json --coverage --testLocationInResults --outputFile="report.json"'
         );
@@ -39,6 +61,7 @@ describe('getTestCommand', () => {
             await getTestCommand(
                 'npm run test:coverage',
                 'report.json',
+                undefined,
                 undefined
             )
         ).toBe(
@@ -49,6 +72,7 @@ describe('getTestCommand', () => {
             await getTestCommand(
                 'npm run test:coverage -- --coverageReporters="text" --coverageReporters="text-summary"',
                 'report.json',
+                undefined,
                 undefined
             )
         ).toBe(
@@ -65,6 +89,7 @@ describe('getTestCommand', () => {
             await getTestCommand(
                 'pnpm run test:coverage',
                 'report.json',
+                undefined,
                 undefined
             )
         ).toBe(
@@ -75,6 +100,7 @@ describe('getTestCommand', () => {
             await getTestCommand(
                 'pnpm run test:coverage -- --coverageReporters="text" --coverageReporters="text-summary"',
                 'report.json',
+                undefined,
                 undefined
             )
         ).toBe(
@@ -97,6 +123,7 @@ describe('getTestCommand', () => {
             await getTestCommand(
                 'pnpm run test:coverage',
                 'report.json',
+                undefined,
                 undefined
             )
         ).toBe(
@@ -107,6 +134,7 @@ describe('getTestCommand', () => {
             await getTestCommand(
                 'pnpm run test:coverage -- --coverageReporters="text" --coverageReporters="text-summary"',
                 'report.json',
+                undefined,
                 undefined
             )
         ).toBe(
@@ -129,6 +157,7 @@ describe('getTestCommand', () => {
             await getTestCommand(
                 'pnpm run test:coverage',
                 'report.json',
+                undefined,
                 undefined
             )
         ).toBe(
@@ -141,8 +170,20 @@ describe('getTestCommand', () => {
             await getTestCommand(
                 'npm run test -- --outputFile="report.json"',
                 'report2.json',
+                undefined,
                 undefined
             )
         ).toBe('npm run test -- --outputFile="report.json"');
+    });
+
+    it('should remove non vitest arguments ', async () => {
+        expect(
+            await getTestCommand(
+                'npm run vitest',
+                'report.json',
+                undefined,
+                true
+            )
+        ).toBe('npm run vitest -- --outputFile="report.json"');
     });
 });

@@ -41,7 +41,11 @@ export const getCoverage = async (
             skip();
         }
 
-        await runTest(options.testScript, options.workingDirectory);
+        await runTest(
+            options.testScript,
+            options.workingDirectory,
+            options.isVitest
+        );
     });
 
     const [isCoverageCollected, rawCoverage] = await runStage(
